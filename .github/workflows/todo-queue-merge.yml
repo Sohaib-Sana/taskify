@@ -19,6 +19,7 @@ jobs:
           fetch-depth: 0  # Fetch full history and all branches
 
       - name: Check if queue merge is disabled via manual toggle
+        id: check_toggle
         env:
           SKIP_QUEUE_MERGE: ${{ vars.SKIP_QUEUE_MERGE }}
         run: |
