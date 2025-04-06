@@ -4,20 +4,18 @@ import 'package:taskify/core/utils/either_type_def.dart';
 import 'package:taskify/domain/entities/todo_entity.dart';
 import 'package:taskify/domain/repositories/todo_repository.dart';
 
-class GetTodo extends Usecase<List<TodoEntity>, GetTodoParams> {
+class UpdateTodo extends Usecase<TodoEntity, UpdateTodoParams> {
   final TodoRepository repository;
-  GetTodo(this.repository);
-
+  UpdateTodo(this.repository);
   @override
-  ReturnFailureOr<List<TodoEntity>> call(GetTodoParams params) async {
-    return await repository.getTodos();
+  ReturnFailureOr<TodoEntity> call(UpdateTodoParams params) async {
+    return await repository.updateTodo(todo: params.todo);
   }
 }
 
-class GetTodoParams extends Equatable {
+class UpdateTodoParams extends Equatable {
   final TodoEntity todo;
-  const GetTodoParams(this.todo);
-
+  const UpdateTodoParams(this.todo);
   @override
   List<Object?> get props => [todo];
 }

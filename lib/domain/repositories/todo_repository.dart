@@ -9,7 +9,7 @@ abstract class TodoRepository {
   ReturnFailureOr<TodoEntity> getTodoById({required int id});
 
   /// Add a new todo
-  ReturnFailureOr<bool> addTodo({required TodoEntity todo});
+  ReturnFailureOr<TodoEntity> addTodo({required TodoEntity todo});
 
   /// Update an existing todo
   ReturnFailureOr<TodoEntity> updateTodo({required TodoEntity todo});
