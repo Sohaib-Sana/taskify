@@ -16,10 +16,11 @@ dependencies:
 
   # State Management
   equatable: ^2.0.7
+  flutter_bloc: ^9.1.0
 
   # others
   fpdart: ^1.1.1 # Funtional programming
-  flutter_bloc: ^9.1.0
+  intl: ^0.20.2 # utils
 
 dev_dependencies:
   flutter_test:
