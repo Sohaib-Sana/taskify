@@ -39,3 +39,5 @@ Clone the repo and run:
 ```bash
 flutter pub get
 flutter run
+fvm run
+
