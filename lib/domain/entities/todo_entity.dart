@@ -8,7 +8,7 @@ class TodoEntity extends Equatable {
   final String description;
   final bool completionStatus;
   final DateTime createdAt;
-  final DateTime completedAt;
+  final DateTime? completedAt;
   final Priority priority;
   const TodoEntity({
     required this.id,
@@ -48,7 +48,7 @@ class TodoEntity extends Equatable {
       description,
       completionStatus,
       createdAt,
-      completedAt,
+      completedAt.toString(),
       priority,
     ];
   }
