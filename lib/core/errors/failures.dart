@@ -13,6 +13,6 @@ class RemoteDatabaseFailure extends Failures {
   const RemoteDatabaseFailure({required super.message});
 }
 
-class CacheFailure extends Failures {
-  const CacheFailure({required super.message});
+class LocalDatabaseFailure extends Failures {
+  const LocalDatabaseFailure({required super.message});
 }
