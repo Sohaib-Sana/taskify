@@ -2,43 +2,14 @@ import 'package:taskify/domain/entities/todo_entity.dart';
 
 class TodoModel extends TodoEntity {
   const TodoModel({
-    required int id,
-    required String title,
-    required String? description,
-    required bool completionStatus,
-    required DateTime createdAt,
-    required DateTime? completedAt,
-    required Priority priority,
-  }) : super(
-         id: id,
-         title: title,
-         description: description,
-         completionStatus: completionStatus,
-         createdAt: createdAt,
-         completedAt: completedAt,
-         priority: priority,
-       );
-
-  @override
-  TodoModel copyWith({
-    int? id,
-    String? title,
-    String? description,
-    bool? completionStatus,
-    DateTime? createdAt,
-    DateTime? completedAt,
-    Priority? priority,
-  }) {
-    return TodoModel(
-      id: id ?? this.id,
-      title: title ?? this.title,
-      description: description ?? this.description,
-      completionStatus: completionStatus ?? this.completionStatus,
-      createdAt: createdAt ?? this.createdAt,
-      completedAt: completedAt ?? this.completedAt,
-      priority: priority ?? this.priority,
-    );
-  }
+    required super.id,
+    required super.title,
+    required super.description,
+    required super.completionStatus,
+    required super.createdAt,
+    required super.completedAt,
+    required super.priority,
+  });
 
   factory TodoModel.fromEntity(TodoEntity todo) {
     return TodoModel(
@@ -77,34 +48,5 @@ class TodoModel extends TodoEntity {
       'completedAt': completedAt?.toIso8601String(),
       'priority': priority,
     };
-  }
-
-  @override
-  String toString() {
-    return 'TodoModel(id: $id, title: $title, description: $description, completionStatus: $completionStatus, createdAt: $createdAt, completedAt: $completedAt, priority: $priority)';
-  }
-
-  @override
-  bool operator ==(covariant TodoModel other) {
-    if (identical(this, other)) return true;
-
-    return other.id == id &&
-        other.title == title &&
-        other.description == description &&
-        other.completionStatus == completionStatus &&
-        other.createdAt == createdAt &&
-        other.completedAt == completedAt &&
-        other.priority == priority;
-  }
-
-  @override
-  int get hashCode {
-    return id.hashCode ^
-        title.hashCode ^
-        description.hashCode ^
-        completionStatus.hashCode ^
-        createdAt.hashCode ^
-        completedAt.hashCode ^
-        priority.hashCode;
   }
 }
