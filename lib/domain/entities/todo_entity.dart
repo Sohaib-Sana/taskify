@@ -5,10 +5,10 @@ part './sub_entities.dart';
 class TodoEntity extends Equatable {
   final int id;
   final String title;
-  final String description;
+  final String? description;
   final bool completionStatus;
   final DateTime createdAt;
-  final DateTime completedAt;
+  final DateTime? completedAt;
   final Priority priority;
   const TodoEntity({
     required this.id,
@@ -45,10 +45,10 @@ class TodoEntity extends Equatable {
     return [
       id,
       title,
-      description,
+      description.toString(),
       completionStatus,
       createdAt,
-      completedAt,
+      completedAt.toString(),
       priority,
     ];
   }
