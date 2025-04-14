@@ -28,6 +28,7 @@ class TodoLocalDb implements TodoDatasource {
                   completionStatus INTEGER NOT NULL,
                   completedAt TEXT,
                   priority INTEGER NOT NULL,
+                  isSynced INTEGER,
                 )
                 ''');
       },
