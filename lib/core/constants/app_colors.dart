@@ -50,4 +50,9 @@ class AppColors {
   static const Color darkBorderColor = Color(
     0xFF444444,
   ); // Dark grey border in dark mode
+
+  // Priority colors
+  static const Color highPriorityColor = Color(0xFFE53935); // Red
+  static const Color mediumPriorityColor = Color(0xFFFFA726); // Orange
+  static const Color lowPriorityColor = Color(0xFF66BB6A); // Green
 }

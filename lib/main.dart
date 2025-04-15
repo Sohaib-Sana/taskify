@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:taskify/core/routes/router.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -21,16 +22,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Taskify',
       debugShowCheckedModeBanner: false,
-      home: HomeWidget(),
+      initialRoute: '/',
+      onGenerateRoute: AppRouter.onGenerateRoute,
     );
-  }
-}
-
-class HomeWidget extends StatelessWidget {
-  const HomeWidget({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const Scaffold(body: Center(child: Text("HomePage Of Taskify")));
   }
 }
