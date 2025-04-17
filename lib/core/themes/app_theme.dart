@@ -113,4 +113,22 @@ class AppTheme {
       ),
     );
   }
+
+  // Priority colors
+  static const Color highPriorityColor = Color(0xFFE53935); // Red
+  static const Color mediumPriorityColor = Color(0xFFFFA726); // Orange
+  static const Color lowPriorityColor = Color(0xFF66BB6A); // Green
+
+  static Color getPriorityColor(int priority) {
+    switch (priority) {
+      case 1:
+        return highPriorityColor;
+      case 2:
+        return mediumPriorityColor;
+      case 3:
+        return lowPriorityColor;
+      default:
+        return mediumPriorityColor;
+    }
+  }
 }

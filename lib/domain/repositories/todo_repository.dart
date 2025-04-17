@@ -1,4 +1,4 @@
-import 'package:taskify/core/utils/either_type_def.dart';
+import 'package:taskify/core/utils/either_type_defs.dart';
 import 'package:taskify/domain/entities/todo_entity.dart';
 
 abstract class TodoRepository {

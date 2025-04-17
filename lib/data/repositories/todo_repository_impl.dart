@@ -1,6 +1,6 @@
 import 'package:fpdart/fpdart.dart';
 import 'package:taskify/core/errors/failures.dart';
-import 'package:taskify/core/utils/either_type_def.dart';
+import 'package:taskify/core/utils/either_type_defs.dart';
 import 'package:taskify/data/datasources/todo_datasource.dart';
 import 'package:taskify/data/models/todo_model.dart';
 import 'package:taskify/domain/entities/todo_entity.dart';
