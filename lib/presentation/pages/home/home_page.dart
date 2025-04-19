@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:taskify/core/constants/app_constants.dart';
 import 'package:taskify/domain/entities/todo_entity.dart';
+import 'package:taskify/presentation/blocs/todo/todo_bloc.dart';
 import 'package:taskify/presentation/pages/home/widgets/add_todo_dialog.dart';
 import 'package:taskify/presentation/pages/home/widgets/todo_item.dart';
 
@@ -63,7 +65,17 @@ class _HomeWidgetState extends State<HomeWidget> {
           ),
         ],
       ),
-      body: _buildEmptyState(),
+      body: BlocBuilder<TodoBloc, TodoState>(
+        builder: (context, state) {
+          if (state is TodoLoading && state is! TodosLoaded) {
+            return Center(child: CircularProgressIndicator());
+          } else if (state is TodosLoaded && state.todos.isNotEmpty) {
+            return _buildTodoList(state.todos);
+          } else {
+            return _buildEmptyState();
+          }
+        },
+      ),
     );
   }
 

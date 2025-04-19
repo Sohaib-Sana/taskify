@@ -3,7 +3,7 @@ import 'package:equatable/equatable.dart';
 part './sub_entities.dart';
 
 class TodoEntity extends Equatable {
-  final int id;
+  final int? id;
   final String title;
   final String? description;
   final bool completionStatus;
@@ -11,13 +11,13 @@ class TodoEntity extends Equatable {
   final DateTime? completedAt;
   final Priority priority;
   const TodoEntity({
-    required this.id,
+    this.id,
     required this.title,
     required this.description,
-    required this.completionStatus,
+    this.completionStatus = false,
     required this.createdAt,
-    required this.completedAt,
-    required this.priority,
+    this.completedAt,
+    this.priority = Priority.medium,
   });
 
   TodoEntity copyWith({
@@ -41,7 +41,7 @@ class TodoEntity extends Equatable {
   }
 
   @override
-  List<Object> get props {
+  List<Object?> get props {
     return [
       id,
       title,
