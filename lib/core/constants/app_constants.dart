@@ -3,13 +3,6 @@ class AppConstants {
   static const String appName = 'Taskify';
   static const String appVersion = '1.0.0';
 
-  // Priority Labels
-  static const Map<int, String> priorityLabels = {
-    1: 'High',
-    2: 'Medium',
-    3: 'Low',
-  };
-
   // Animation durations
   static const Duration defaultAnimationDuration = Duration(milliseconds: 300);
   static const Duration pageTransitionDuration = Duration(milliseconds: 200);

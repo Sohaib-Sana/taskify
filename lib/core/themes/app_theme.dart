@@ -113,17 +113,4 @@ class AppTheme {
       ),
     );
   }
-
-  static Color getPriorityColor(int priority) {
-    switch (priority) {
-      case 1:
-        return AppColors.highPriorityColor;
-      case 2:
-        return AppColors.mediumPriorityColor;
-      case 3:
-        return AppColors.lowPriorityColor;
-      default:
-        return AppColors.mediumPriorityColor;
-    }
-  }
 }
