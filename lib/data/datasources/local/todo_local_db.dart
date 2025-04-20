@@ -15,20 +15,21 @@ class TodoLocalDb implements TodoDatasource {
   }
 
   Future<Database> _initDB() async {
-    String path = await getDatabasesPath();
+    String path = join(await getDatabasesPath(), "todo.db");
+    await deleteDatabase(path);
     return openDatabase(
-      join(path, "todo.db"),
+      path,
       onCreate: (db, version) async {
         await db.execute('''
                 CREATE TABLE todos (
-                  id INTEGER NOT NULL PRIMARY AUTOINCREMENT,
+                  id INTEGER PRIMARY KEY AUTOINCREMENT,
                   title TEXT NOT NULL,
                   description TEXT,
                   createdAt TEXT NOT NULL,
                   completionStatus INTEGER NOT NULL,
                   completedAt TEXT,
                   priority INTEGER NOT NULL,
-                  isSynced INTEGER,
+                  isSynced INTEGER
                 )
                 ''');
       },
@@ -40,7 +41,7 @@ class TodoLocalDb implements TodoDatasource {
   Future<TodoModel> addTodo({required TodoModel todo}) async {
     try {
       final db = await database;
-      final id = await db.insert('todos', todo.toJson()..remove('id'));
+      final id = await db.insert('todos', todo.toDBJson()..remove('id'));
       return TodoModel.fromEntity(todo.copyWith(id: id));
     } catch (e) {
       throw DatabaseException('Failed to add todo: $e');
@@ -63,7 +64,7 @@ class TodoLocalDb implements TodoDatasource {
     try {
       final db = await database;
       final todo = await db.query('todos', where: 'id = ?', whereArgs: [id]);
-      return TodoModel.fromJson(todo.first);
+      return TodoModel.fromDBJson(todo.first);
     } catch (e) {
       throw DatabaseException('Failed to get todo by id $id: $e');
     }
@@ -76,7 +77,7 @@ class TodoLocalDb implements TodoDatasource {
       final List<Map<String, Object?>> todos = await db.query('todos');
       return List.generate(
         todos.length,
-        (index) => TodoModel.fromJson(todos[index]),
+        (index) => TodoModel.fromDBJson(todos[index]),
       );
     } catch (e) {
       throw DatabaseException('Failed to get todos: $e');

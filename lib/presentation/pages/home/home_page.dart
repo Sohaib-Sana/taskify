@@ -24,7 +24,6 @@ class _HomeWidgetState extends State<HomeWidget> {
       builder:
           (context) => AddTodoDialog(
             todo: todo,
-            onAdd: (_, __, ___) {}, // Not used here
             onUpdate: <TodoEntity>(updatedTodo) {
               Navigator.pop(context);
               // context.read<TodoBloc>().add(UpdateTodoEvent(todo: updatedTodo));
@@ -46,8 +45,15 @@ class _HomeWidgetState extends State<HomeWidget> {
       context: context,
       builder:
           (context) => AddTodoDialog(
-            onAdd: (title, description, priority) {},
-            onUpdate: (_) {}, // Not used here
+            onAdd: (title, description, priority) {
+              context.read<TodoBloc>().add(
+                AddTodoEvent(
+                  title: title,
+                  description: description,
+                  priority: priority,
+                ),
+              );
+            },
           ),
     );
   }
@@ -71,6 +77,8 @@ class _HomeWidgetState extends State<HomeWidget> {
             return Center(child: CircularProgressIndicator());
           } else if (state is TodosLoaded && state.todos.isNotEmpty) {
             return _buildTodoList(state.todos);
+          } else if (state is TodoOperationFailure) {
+            return SnackBar(content: Text(state.message));
           } else {
             return _buildEmptyState();
           }
@@ -115,7 +123,7 @@ class _HomeWidgetState extends State<HomeWidget> {
       onRefresh: () async => _loadTodos(),
       child: ListView.builder(
         padding: const EdgeInsets.all(16),
-        itemCount: 10,
+        itemCount: todos.length,
         itemBuilder: (context, index) {
           return TodoItem(
             todo: todos[index],

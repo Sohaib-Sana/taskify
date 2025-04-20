@@ -1,6 +1,5 @@
 import 'package:equatable/equatable.dart';
-
-part './sub_entities.dart';
+import 'package:taskify/core/utils/priority_helper.dart';
 
 class TodoEntity extends Equatable {
   final int? id;

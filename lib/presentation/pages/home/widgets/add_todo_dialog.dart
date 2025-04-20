@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:taskify/core/constants/app_colors.dart';
+import 'package:taskify/core/utils/priority_helper.dart';
 import 'package:taskify/domain/entities/todo_entity.dart';
 import 'package:taskify/presentation/widgets/custom_button.dart';
 import 'package:taskify/presentation/widgets/custom_text_field.dart';
@@ -7,15 +8,10 @@ import '../../../../core/constants/app_constants.dart';
 
 class AddTodoDialog extends StatefulWidget {
   final TodoEntity? todo;
-  final Function(String, String, Priority) onAdd;
-  final Function(TodoEntity) onUpdate;
+  final Function(String, String, Priority)? onAdd;
+  final Function(TodoEntity)? onUpdate;
 
-  const AddTodoDialog({
-    super.key,
-    this.todo,
-    required this.onAdd,
-    required this.onUpdate,
-  });
+  const AddTodoDialog({super.key, this.todo, this.onAdd, this.onUpdate});
 
   @override
   State<AddTodoDialog> createState() => _AddTodoDialogState();
@@ -58,13 +54,16 @@ class _AddTodoDialogState extends State<AddTodoDialog> {
           description: _descriptionController.text.trim(),
           priority: _selectedPriority,
         );
-        widget.onUpdate(updatedTodo);
+
+        if (widget.onUpdate != null) widget.onUpdate!(updatedTodo);
       } else {
-        widget.onAdd(
-          _titleController.text.trim(),
-          _descriptionController.text.trim(),
-          _selectedPriority,
-        );
+        if (widget.onAdd != null) {
+          widget.onAdd!(
+            _titleController.text.trim(),
+            _descriptionController.text.trim(),
+            _selectedPriority,
+          );
+        }
       }
       Navigator.of(context).pop();
     }

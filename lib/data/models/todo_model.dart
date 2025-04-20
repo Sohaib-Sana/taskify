@@ -1,3 +1,4 @@
+import 'package:taskify/core/utils/priority_helper.dart';
 import 'package:taskify/domain/entities/todo_entity.dart';
 
 class TodoModel extends TodoEntity {
@@ -38,6 +39,21 @@ class TodoModel extends TodoEntity {
     );
   }
 
+  factory TodoModel.fromDBJson(Map<String, dynamic> json) {
+    return TodoModel(
+      id: json['id'],
+      title: json['title'],
+      description: json['description'],
+      completionStatus: json['completionStatus'] == 1,
+      createdAt: DateTime.parse(json['createdAt']),
+      completedAt:
+          json['completedAt'] != null
+              ? DateTime.parse(json['completedAt'])
+              : null,
+      priority: (json['priority'] as int).toPriority,
+    );
+  }
+
   Map<String, dynamic> toJson() {
     return {
       'id': id,
@@ -47,6 +63,18 @@ class TodoModel extends TodoEntity {
       'createdAt': createdAt.toIso8601String(),
       'completedAt': completedAt?.toIso8601String(),
       'priority': priority,
+    };
+  }
+
+  Map<String, dynamic> toDBJson() {
+    return {
+      'id': id,
+      'title': title,
+      'description': description,
+      'completionStatus': completionStatus ? 1 : 0,
+      'createdAt': createdAt.toIso8601String(),
+      'completedAt': completedAt?.toIso8601String(),
+      'priority': priority.toInt,
     };
   }
 }

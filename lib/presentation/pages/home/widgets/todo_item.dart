@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:taskify/core/themes/app_theme.dart';
+import 'package:taskify/core/utils/priority_helper.dart';
 import 'package:taskify/domain/entities/todo_entity.dart';
-import '../../../../core/constants/app_constants.dart';
 import '../../../../core/utils/date_formatter.dart';
 
 class TodoItem extends StatelessWidget {
@@ -23,7 +22,7 @@ class TodoItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final priorityColor = AppTheme.getPriorityColor(todo.priority.index);
+    final priorityColor = todo.priority.toColor;
     final isCompleted = todo.completionStatus;
 
     return Padding(
@@ -179,15 +178,13 @@ class TodoItem extends StatelessWidget {
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
               decoration: BoxDecoration(
-                color: AppTheme.getPriorityColor(
-                  todo.priority.index,
-                ).withAlpha((0.2 * 255).toInt()),
+                color: todo.priority.toColor.withAlpha((0.2 * 255).toInt()),
                 borderRadius: BorderRadius.circular(4),
               ),
               child: Text(
-                AppConstants.priorityLabels[todo.priority.index] ?? 'Medium',
+                todo.priority.toLabel,
                 style: theme.textTheme.bodySmall?.copyWith(
-                  color: AppTheme.getPriorityColor(todo.priority.index),
+                  color: todo.priority.toColor,
                   fontWeight: FontWeight.w600,
                 ),
               ),
