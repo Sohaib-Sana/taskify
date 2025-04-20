@@ -16,6 +16,7 @@ class TodoLocalDb implements TodoDatasource {
 
   Future<Database> _initDB() async {
     String path = join(await getDatabasesPath(), "todo.db");
+    deleteDatabase(path);
     return openDatabase(
       path,
       onCreate: (db, version) async {
@@ -92,15 +93,15 @@ class TodoLocalDb implements TodoDatasource {
         id: todo.id,
         title: todo.title,
         description: todo.description,
-        completionStatus: todo.completionStatus,
+        completionStatus: !todo.completionStatus,
         createdAt: todo.createdAt,
-        completedAt: todo.completedAt,
+        completedAt: todo.completionStatus ? DateTime.now() : null,
         priority: todo.priority,
       );
 
       await db.update(
         'todos',
-        updatedTodo.toJson(),
+        updatedTodo.toDBJson(),
         where: 'id = ?',
         whereArgs: [id],
       );
@@ -117,7 +118,7 @@ class TodoLocalDb implements TodoDatasource {
       final db = await database;
       await db.update(
         'todos',
-        todo.toJson(),
+        todo.toDBJson(),
         where: 'id = ?',
         whereArgs: [todo.id],
       );
