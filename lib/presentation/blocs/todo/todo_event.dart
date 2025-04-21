@@ -7,7 +7,9 @@ sealed class TodoEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class GetTodosEvent extends TodoEvent {}
+class GetTodosEvent extends TodoEvent {
+  const GetTodosEvent();
+}
 
 class GetTodoByIdEvent extends TodoEvent {
   final int id;

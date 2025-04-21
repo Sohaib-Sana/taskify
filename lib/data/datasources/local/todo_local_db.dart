@@ -16,7 +16,6 @@ class TodoLocalDb implements TodoDatasource {
 
   Future<Database> _initDB() async {
     String path = join(await getDatabasesPath(), "todo.db");
-    await deleteDatabase(path);
     return openDatabase(
       path,
       onCreate: (db, version) async {
