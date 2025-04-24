@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:taskify/core/routes/router.dart';
-import 'package:taskify/core/themes/app_theme.dart';
+import 'package:taskify/core/config/routes/router.dart';
+import 'package:taskify/core/config/themes/app_theme.dart';
 import 'package:taskify/data/datasources/local/todo_local_db.dart';
 import 'package:taskify/data/datasources/todo_datasource.dart';
 import 'package:taskify/data/repositories/todo_repository_impl.dart';
@@ -57,7 +57,7 @@ class MyApp extends StatelessWidget {
           title: 'Taskify',
           theme: AppTheme.lightTheme,
           debugShowCheckedModeBanner: false,
-          initialRoute: '/',
+          initialRoute: '/splash',
           onGenerateRoute: AppRouter.onGenerateRoute,
         ),
       ),
