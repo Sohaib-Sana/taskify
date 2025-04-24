@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../core/constants/app_constants.dart';
 import '../../blocs/todo/todo_bloc.dart';
-import '../home/home_page.dart';
 
 class SplashPage extends StatefulWidget {
   const SplashPage({super.key});
