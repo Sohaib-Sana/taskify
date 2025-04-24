@@ -7,11 +7,11 @@ import 'package:taskify/presentation/blocs/todo/todo_bloc.dart';
 import 'package:taskify/presentation/pages/home/widgets/add_todo_dialog.dart';
 import 'package:taskify/presentation/pages/home/widgets/todo_item.dart';
 
-class HomeWidget extends StatefulWidget {
-  const HomeWidget({super.key});
+class HomePage extends StatefulWidget {
+  const HomePage({super.key});
 
   @override
-  State<HomeWidget> createState() => _HomeWidgetState();
+  State<HomePage> createState() => _HomePageState();
 }
 
 class _HomeWidgetState extends State<HomeWidget> {
