@@ -31,7 +31,9 @@ class TodoBloc extends Bloc<TodoEvent, TodoState> {
   }
 
   Future<void> _onGetTodos(GetTodosEvent event, Emitter<TodoState> emit) async {
-    emit(const TodoLoading());
+    if ((state is TodosLoaded && (state as TodosLoaded).todos.isEmpty)) {
+      emit(const TodoLoading());
+    }
     final result = await getTodosUseCase(NoParams());
     result.fold(
       (failure) => emit(TodoOperationFailure(message: failure.message)),
@@ -40,7 +42,7 @@ class TodoBloc extends Bloc<TodoEvent, TodoState> {
   }
 
   Future<void> _onAddTodo(AddTodoEvent event, Emitter<TodoState> emit) async {
-    emit(const TodoLoading());
+    // emit(const TodoLoading());
     final result = await addTodoUseCase(
       AddTodoParams(
         todo: TodoEntity(
@@ -65,7 +67,7 @@ class TodoBloc extends Bloc<TodoEvent, TodoState> {
     UpdateTodoEvent event,
     Emitter<TodoState> emit,
   ) async {
-    emit(const TodoLoading());
+    // emit(const TodoLoading());
     final result = await updateTodoUseCase(UpdateTodoParams(event.todo));
     result.fold(
       (failure) => emit(TodoOperationFailure(message: failure.message)),
@@ -80,7 +82,7 @@ class TodoBloc extends Bloc<TodoEvent, TodoState> {
     ToggleTodoStatusEvent event,
     Emitter<TodoState> emit,
   ) async {
-    emit(const TodoLoading());
+    // emit(const TodoLoading());
     final result = await toggleTodoUseCase(ToggleParams(event.id));
     result.fold(
       (failure) => emit(TodoOperationFailure(message: failure.message)),
@@ -102,7 +104,7 @@ class TodoBloc extends Bloc<TodoEvent, TodoState> {
     DeleteTodoEvent event,
     Emitter<TodoState> emit,
   ) async {
-    emit(const TodoLoading());
+    // emit(const TodoLoading());
     final result = await deleteTodoUseCase(DeleteParams(event.id));
     result.fold(
       (failure) => emit(TodoOperationFailure(message: failure.message)),

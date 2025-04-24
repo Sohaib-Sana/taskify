@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:taskify/core/constants/app_constants.dart';
+import 'package:taskify/core/utils/global_keys.dart';
 import 'package:taskify/domain/entities/todo_entity.dart';
 import 'package:taskify/presentation/blocs/todo/todo_bloc.dart';
 import 'package:taskify/presentation/pages/home/widgets/add_todo_dialog.dart';
@@ -13,31 +14,15 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomeWidgetState extends State<HomeWidget> {
+  @override
+  void initState() {
+    _loadTodos();
+    super.initState();
+  }
+
   void _loadTodos() {
-    // context.read<TodoBloc>().add(const GetTodosEvent());
-  }
-
-  void _showEditTodoDialog(TodoEntity todo) {
-    showDialog(
-      context: context,
-      builder:
-          (context) => AddTodoDialog(
-            todo: todo,
-            onUpdate: <TodoEntity>(updatedTodo) {
-              Navigator.pop(context);
-              // context.read<TodoBloc>().add(UpdateTodoEvent(todo: updatedTodo));
-            },
-          ),
-    );
-  }
-
-  void _toggleTodoStatus(int id) {
-    // context.read<TodoBloc>().add(ToggleTodoStatusEvent(id: id));
-  }
-
-  void _deleteTodo(int id) {
-    // context.read<TodoBloc>().add(DeleteTodoEvent(id: id));
+    context.read<TodoBloc>().add(const GetTodosEvent());
   }
 
   void _showAddTodoDialog() {
@@ -58,6 +43,27 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+  void _showEditTodoDialog(TodoEntity todo) {
+    showDialog(
+      context: context,
+      builder:
+          (context) => AddTodoDialog(
+            todo: todo,
+            onUpdate: <TodoEntity>(updatedTodo) {
+              context.read<TodoBloc>().add(UpdateTodoEvent(todo: updatedTodo));
+            },
+          ),
+    );
+  }
+
+  void _toggleTodoStatus(int id) {
+    context.read<TodoBloc>().add(ToggleTodoStatusEvent(id: id));
+  }
+
+  void _deleteTodo(int id) {
+    context.read<TodoBloc>().add(DeleteTodoEvent(id: id));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -71,18 +77,50 @@ class _HomePageState extends State<HomePage> {
           ),
         ],
       ),
-      body: BlocBuilder<TodoBloc, TodoState>(
-        builder: (context, state) {
-          if (state is TodoLoading && state is! TodosLoaded) {
-            return Center(child: CircularProgressIndicator());
-          } else if (state is TodosLoaded && state.todos.isNotEmpty) {
-            return _buildTodoList(state.todos);
+      body: BlocConsumer<TodoBloc, TodoState>(
+        listener: (context, state) {
+          if (state is TodoLoading) {
+            refreshIndicatorKey.currentState?.show();
+          } else if (state is TodoOperationSuccess) {
+            ScaffoldMessenger.of(context)
+              ..hideCurrentSnackBar()
+              ..showSnackBar(
+                SnackBar(
+                  content: Text(state.message),
+                  behavior: SnackBarBehavior.floating,
+                  duration: AppConstants.snackBarDuration,
+                ),
+              );
           } else if (state is TodoOperationFailure) {
-            return SnackBar(content: Text(state.message));
-          } else {
-            return _buildEmptyState();
+            ScaffoldMessenger.of(context)
+              ..hideCurrentSnackBar()
+              ..showSnackBar(
+                SnackBar(
+                  content: Text(state.message),
+                  behavior: SnackBarBehavior.floating,
+                  backgroundColor: Colors.red,
+                  duration: AppConstants.snackBarDuration,
+                ),
+              );
           }
         },
+        builder: (context, state) {
+          if ((state is TodoInitial ||
+                  state is TodoLoading ||
+                  state is TodoOperationSuccess) &&
+              state is! TodosLoaded) {
+            return Center(child: CircularProgressIndicator());
+          } else if (state is TodosLoaded && state.todos.isEmpty) {
+            return _buildEmptyState();
+          } else {
+            return _buildTodoList((state as TodosLoaded).todos);
+          }
+        },
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: _showAddTodoDialog,
+        tooltip: 'Add new TODO',
+        child: const Icon(Icons.add),
       ),
     );
   }
@@ -120,12 +158,14 @@ class _HomePageState extends State<HomePage> {
 
   Widget _buildTodoList(List<TodoEntity> todos) {
     return RefreshIndicator(
+      key: refreshIndicatorKey,
       onRefresh: () async => _loadTodos(),
       child: ListView.builder(
         padding: const EdgeInsets.all(16),
         itemCount: todos.length,
         itemBuilder: (context, index) {
           return TodoItem(
+            key: ValueKey(todos[index]),
             todo: todos[index],
             onToggle: _toggleTodoStatus,
             onEdit: _showEditTodoDialog,
