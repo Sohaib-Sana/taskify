@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:taskify/core/config/themes/cubit/theme_cubit.dart';
 import 'package:taskify/core/constants/app_constants.dart';
 import 'package:taskify/core/utils/global_keys.dart';
 import 'package:taskify/domain/entities/todo_entity.dart';
@@ -71,7 +72,7 @@ class _HomePageState extends State<HomePage> {
         title: Text(AppConstants.appName),
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () => context.read<ThemeCubit>().toggleTheme(),
             icon: Icon(Icons.dark_mode),
             tooltip: 'Switch to dark mode',
           ),
