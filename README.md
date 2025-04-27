@@ -26,7 +26,7 @@ Will add few screenshots here after completion of project — dashboard, task cr
 
 - **Flutter**
 - **State Management:** Bloc 
-- **Database:** Firebase Firestore / SQLite *(Start with firebase support)*
+- **Database:** Firebase Firestore / SQLite *(Start with SQFLITE support)*
 - **Local Notifications:** `flutter_local_notifications`
 - **Animations & UI:** Flutter's built-in animation framework
 
