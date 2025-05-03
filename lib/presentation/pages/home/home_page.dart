@@ -69,6 +69,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         title: Text(AppConstants.appName),
         actions: [
           IconButton(
@@ -111,7 +112,14 @@ class _HomePageState extends State<HomePage> {
                   state is TodoOperationSuccess) &&
               state is! TodosLoaded) {
             return Center(child: CircularProgressIndicator());
-          } else if (state is TodosLoaded && state.todos.isEmpty) {
+          } else if ((state is TodosLoaded && state.todos.isEmpty)) {
+            return _buildEmptyState();
+          } else if (state is TodoOperationFailure) {
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              ScaffoldMessenger.of(
+                context,
+              ).showSnackBar(SnackBar(content: Text(state.message)));
+            });
             return _buildEmptyState();
           } else {
             return _buildTodoList((state as TodosLoaded).todos);
