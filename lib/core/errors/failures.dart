@@ -6,7 +6,7 @@ sealed class Failures extends Equatable {
   const Failures({required this.message});
 
   @override
-  List<Object> get props => [];
+  List<Object> get props => [message];
 }
 
 class RemoteDatabaseFailure extends Failures {
